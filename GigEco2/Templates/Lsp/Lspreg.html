@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded Map</title>
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
+    <!-- Include Leaflet CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="../Styles/gmap.css">
+</head>
+
+<body>
+    <nav>
+        <div class="left-container">
+            <!-- <img src="../images/icons8-back-arrow-50 (1).png" alt=""> -->
+            <p>Profile Creation</p>
+        </div>
+    </nav>
+    <div class="main-container">
+        <div class="container">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" placeholder="Name" name="name">
+                <input type="text" placeholder="Category" name="category">
+                <input type="text" placeholder="Contact no" name="contact_no">
+                <input type="text" placeholder="Whatsapp no" name="whatsapp_no">
+                <input type="email" placeholder="Email" name="email">
+                <label for="">Upload your profile picture</label>
+                <input type="file" class="file">
+                <input type="hidden" name="lat" id="lat">
+                <input type="hidden" name="long" id="long">
+                <button type="submit">Submit</button>
+            </form>
+            <div class="right-container">
+                <p>Select your work Location</p>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- <script src="../Js/map.js"></script> -->
+</body>
+
+</html>
+
+<script>
+    // Initialize the map
+var map = L.map('map');
+
+// Get user's current location using Geolocation API
+navigator.geolocation.getCurrentPosition(function (position) {
+    var initialLatLng = [position.coords.latitude, position.coords.longitude];
+
+    // Set the initial view of the map
+    map.setView(initialLatLng, 8);
+
+    // Add a tile layer (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Add a marker at the initial location
+    var marker = L.marker(initialLatLng, {
+        draggable: true
+    }).addTo(map);
+
+    // Event listener for marker dragend
+    marker.on('dragend', function (event) {
+        var lat = marker.getLatLng().lat;
+        var lng = marker.getLatLng().lng;
+        console.log("Latitude: " + lat + ", Longitude: " + lng);
+
+        // Update the latitude and longitude input fields in the form
+        document.getElementById('lat').value = lat;
+        document.getElementById('long').value = lng;
+    });
+}, function (error) {
+    console.error('Error getting current location:', error.message);
+});
+
+</script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+    font-family: "Familjen Grotesk", sans-serif;
+}
+
+nav{
+    color:white;
+    background:#03045e;
+    font-weight:bold;
+    font-size:20px;
+    display: flex;
+    justify-content: space-between;
+    padding:20px 40px;
+    /* border:1px solid black; */
+}
+
+.left-container{
+    display: flex;
+    align-items: center;
+}
+
+nav img{
+    width:30px;
+    height:30px;
+    margin-right:20px;
+    cursor: pointer;
+}
+
+.main-container{
+    height:100vh;
+    background: #90e0ef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.container{
+    display: flex;
+    align-items: center;
+}
+
+form{
+    width:300px;
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    width:100%;
+    padding:17px 10px;
+    margin-bottom:20px;
+}
+
+input:focus{
+    outline: solid 2px #0096c7;
+}
+
+.file{
+    margin-bottom: 0;
+}
+#map{
+    border:1px solid black;
+    width:400px;
+    height:400px;
+    margin-left:50px;
+    /* margin-top:-50px */
+}
+
+.right-container p{
+    text-align: center;
+    margin-bottom:5px;
+    font-size: 17px;
+    /* margin-bottom:-50px */
+}
+</style> 

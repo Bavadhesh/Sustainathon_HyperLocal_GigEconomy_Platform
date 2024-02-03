@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="../Styles/requestbox.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/dist/boxicons.js" integrity="sha512-Dm5UxqUSgNd93XG7eseoOrScyM1BVs65GrwmavP0D0DujOA8mjiBfyj71wmI2VQZKnnZQsSWWsxDKNiQIqk8sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="left-container">
+            <i class='bx bx-arrow-back'></i>   <p>Request Box</p>
+        </div>
+    </nav>
+    <section class="gig-card">
+        {% for req in requests %}
+        <div class="component">
+            <div class="top-component">
+                <p>CustomerName:{{req.customerName}}</p>
+                <p>Phone no:{{req.customerPhone}}</p>
+                <p>Address:{{req.customerAddress}}</p>
+                <p>Problem:{{req.problem}}</p>
+            </div>
+            <div class="bottom-component">
+               <a href="/Lsp/send_mail/{{req.id}}/"> <button>Accept</button> </a>
+               <a href="/Lsp/send_decline_mail/{{req.id}}/"> <button>Decline</button> </a>
+
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+</body>
+
+</html>
+<style>
+    *{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+    font-family: "Familjen Grotesk", sans-serif;
+}
+
+body{
+    background: #90e0ef;
+
+}
+
+nav{
+    color:white;
+    background:#03045e;
+    font-weight:bold;
+    display: flex;
+    justify-content: space-between;
+    padding:20px 40px;
+    /* border:1px solid black; */
+}
+
+.left-container{
+    display: flex;
+    align-items: center;
+}
+
+nav img{
+    width:30px;
+    height:30px;
+    margin-right:20px;
+    cursor: pointer;
+}
+
+nav p{
+    font-size: 21px;
+}
+
+.gig-card {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 15px;
+    grid-row-gap: 0px;
+    }
+
+
+.gig-card{
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+.component{
+    background: #fff;
+    color:white;
+    border:1px solid #0077b6;
+    padding:40px;
+    border-radius: 8px;
+    box-shadow: 0px 9px 13px 5px rgba(0,0,0,0.2);
+}
+
+.bottom-component{
+    display: flex;
+    justify-content: center;
+}
+
+button{
+    cursor: pointer;
+    color: #fff;
+    font-size: 13px;
+    margin-right: 10px;
+    padding:10px 20px;
+    border:1px solid black;
+    border-radius:5px
+}
+
+button:nth-child(1){
+    background:#0077b6;
+
+}
+button:nth-child(2){
+    background:#03045e;
+}
+
+.top-component{
+    color:black;
+}
+
+.bottom-component{
+    margin-top:20px;
+}
+</style>

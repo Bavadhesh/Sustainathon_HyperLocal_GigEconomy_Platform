@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded Map</title>
+    <link rel="stylesheet" href="{% static 'customer/listing.css' %}">
+</head>
+
+<body>
+    <nav>
+        <div class="left-container">
+            <p>{{ Category }}</p>
+        </div>
+    </nav>
+    {% for sp in list %}
+    <section class="gig-card">
+        <div class="component">
+            <div class="top">
+                <p class="category-badge">{{ sp.category }}</p>
+            </div>
+            <div class="middle">
+                <div class="middle-left">
+                    <img src="http://127.0.0.1:8000/media/{{ sp.profilePhoto }}" alt="Profile Image">
+                    <div class="details">
+                        <p class="name">{{ sp.Name }}</p>
+                        <p class="distance">{{ sp.Distance }} km</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                {{ sp.description }}
+            </div>
+            <div class="cta">
+                <a href="request/{{ sp.id }}/"><p class="request-button">Request</p></a>
+            </div>
+            <p id="{{ sp.id }}" class="availability"></p>
+        </div>
+    </section>
+    {% endfor %}
+</body>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: "Familjen Grotesk", sans-serif;
+    }
+
+    nav {
+        color: white;
+        background: #03045e;
+        font-weight: bold;
+        font-size: 20px;
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 40px;
+        border: 1px solid black;
+    }
+
+    .left-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .gig-card {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .component {
+        border: 1px solid black;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .component:hover {
+        transform: scale(1.05);
+    }
+
+    .category-badge {
+        background-color: #03045e;
+        color: white;
+        border-radius: 8px;
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+
+    .middle-left {
+        display: flex;
+        align-items: center;
+    }
+
+    img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 20px;
+    }
+
+    .details {
+        flex-grow: 1;
+    }
+
+    .name {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .distance {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .bottom {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .cta {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .request-button {
+        border: solid 1px #03045e;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
+
+    .request-button:hover {
+        background-color: #03045e;
+        color: white;
+    }
+
+    .availability {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
+
+<script>
+    const serviceProviders = [
+        {% for sp in list %}
+        {
+            id: {{ sp.id }},
+            name: "{{ sp.name }}",
+            // Add more fields as needed
+        },
+        {% endfor %}
+    ];
+</script>
+
+<script>
+    // Set a timeout to delay the execution
+    document.addEventListener('DOMContentLoaded', function () {
+        // Set a timeout to delay the execution
+        setInterval(() => {
+            fetchData();
+        }, 2000); // 2000 milliseconds (2 seconds)
+    });
+
+    const fetchData = () => {
+        for (const sp of serviceProviders) {
+            fetch(`http://127.0.0.1:8000/cust/available/${sp.id}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Update the HTML element based on the fetched data
+                    updateElement(data.id, data.status);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+    }
+
+    function updateElement(elementId, content) {
+        // Update the HTML element content
+        const element = document.getElementById(elementId);
+        if (element) {
+            console.log(content)
+            if (content) {
+                element.innerHTML = "Available"
+            } else {
+                element.innerHTML = "Not Available"
+            }
+        } else {
+            console.error(`Element with id '${elementId}' not found.`);
+        }
+    }
+</script>
+
+</html>

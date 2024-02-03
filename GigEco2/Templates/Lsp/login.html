@@ -1,0 +1,188 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'Lsp\login.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <div class="login">
+            <form id="myForm" action="" method="POST">
+                {% csrf_token %}
+                <input type="username" name="username" placeholder="enter email" class="email" required>
+                <input type="password" name="password" id="pwd" placeholder="enter password" required>
+                <div class="pwdcls">
+                    <input type="checkbox" onclick="togglefunc()" id="cp">
+                    <p>show password</p>
+                </div>
+                <button type="submit">login</button>
+            </form>
+        </div>
+        {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+    </div>
+    <script src="{% static 'login.js' %}"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'Lsp\login.css' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Familjen Grotesk", sans-serif;
+        }
+
+        body {
+            background: #90e0ef;
+            margin: 0; /* Add this line to remove default body margin */
+        }
+
+        header {
+            background: #03045e;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%; /* Add this line to make the header span the full width */
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            align-items: center;
+        }
+
+        .left-container p {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .main-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        form {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input:focus {
+            outline: solid 2px #0096c7;
+        }
+
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        button {
+            background: #03045e;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #001e3c;
+        }
+
+        .error-message {
+            color: #ff0000;
+            margin-top: 10px;
+        }
+
+        .signup-link {
+            margin-top: 10px;
+            text-align: center;
+            color: #333;
+        }
+
+        .signup-link a {
+            color: #03045e;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="container">
+            <form id="myForm" action="" method="POST">
+                {% csrf_token %}
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                <input type="username" name="username" placeholder="enter email" class="email" required>
+                <input type="password" name="password" id="pwd" placeholder="enter password" required>
+
+                <div class="pwdcls">
+                    <input type="checkbox" onclick="togglefunc()" id="cp">
+                    <p>show password</p>
+                </div>
+
+                <button type="submit">login</button>
+            </form>
+            <div class="signup-link">
+                <p>Don't have an account? <a href="{% url 'signupLsp' %}">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'login.js' %}"></script>
+</body>
+
+</html>

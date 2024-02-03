@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskWind</title>
+  <!-- <link rel="stylesheet" href="{% static 'customer\search.css' %}" /> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <div class="main-container">
+    <div class="top-container">
+      <h1>TaskWind</h1>
+      <p>finding skilled gigs around you.</p>
+    </div>
+    <div class="bottom-container">
+      <form method="POST" action="" >
+        {% csrf_token %}
+        
+        <div>
+            <input type="text" placeholder="Skill" name="skill" />
+          </div>
+          <input type="hidden" id="latitude" name="lat"/>
+          <input type="hidden" id="longitude" name="long"/>
+          <!-- Trigger location retrieval -->
+          <button id="geo" type="button" onclick="getLocation()">Get Location</button>
+          <center><i class="fa-solid fa-check" id="tick" style="display:none;color: green;"></i></center>
+          <button type="submit">Search</button>
+        </div>
+      </form>
+  </div>
+  <!-- <script src="{% static 'customer\search.js' %}"></script> -->
+</body>
+
+</html>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    font-family: "Familjen Grotesk", sans-serif;
+
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+body{
+    background: #90e0ef;
+    height:100vh;
+    width:100vw;
+    display: flex;
+    justify-content: center;
+    /* align-items:center;  */
+    
+}
+
+.main-container{
+    width:400px;
+    font-family: "Familjen Grotesk", sans-serif;
+    /* border:1px solid black; */
+    padding:40px 50px;
+    border-radius: 10px;
+}
+
+.top-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top:60px;
+}
+
+.top-container h1{
+    font-size:60px
+}
+
+.top-container p{
+    font-size:15px;
+    margin-top:15px;
+}
+
+.bottom-container{
+    margin-top:50px;
+}
+
+.bottom-container input {
+    width:100%;
+    margin-bottom:10px;
+    padding:13px 12px
+}
+
+button{
+    background: #0096c7;
+    color:#fff;
+    font-weight:bold;
+    font-size:14px;
+    width:100%;
+    margin-bottom:10px;
+    padding:13px 12px;
+    cursor:pointer;
+}
+
+input:focus{
+    outline: solid 2px #0096c7;
+}
+</style>
+<script>
+  function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+}
+
+function showPosition(position) {
+    // Get latitude and longitude
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+
+    // Set the values in the form
+    document.getElementById('latitude').value = lat;
+    document.getElementById('longitude').value = long;
+    document.getElementById('geo').style.display="none";
+    document.getElementById('tick').style.display="block";
+}
+</script>

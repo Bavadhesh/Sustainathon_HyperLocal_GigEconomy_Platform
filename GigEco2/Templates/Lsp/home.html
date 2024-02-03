@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="navigators">
+            <h4>{{profile.Name}}</h4>
+            <div class="buttons">
+                <a href="/Lsp/reqbox/"><button>Request Box</button></a>
+                <a href="{% url 'booklogs' %}"><button>BookLogs</button></a>
+                <a href="{% url 'logout' %}"><button>Sign out</button></a>
+            </div>
+        </div>
+        <div class="profile">
+            <div class="prof-details">
+                <img src="http://127.0.0.1:8000/media/{{ profile.profilePhoto }}" alt="">
+            </div>
+            <div class="pd">
+                    <div class="info0"><label for="">Name:</label><p>{{profile.Name}}</p></div>
+                    <div class="info1"><label for="">Occupation:</label><p>{{profile.category}}</p></div>
+                    <div class="info2"><label for="" >Verification-status:</label><p class="verify"> verified<i class="fa fa-check" style="font-size:12px;color:blue"></i></p></div>
+                    <div class="info1"><label for="">Contact:</label><p>{{profile.contactno}}</p></div>
+                    <div class="info1"><label for="">Whatsapp:</label><p>{{profile.WhatsappNo}}</p></div>
+                    <div class="info1"><label for="">Whatsapp:</label><p>{{profile.description}}</p></div>
+                    <div class="info1"><label for="">Status:</label><p>{% if profile.available %}
+                       <span style="color:green">Available</span>  {% else %}<span style="color:red">Not Available</span>{% endif %}</p></div>
+                    
+            </div>
+            <div class="availability">
+                <h4>Availability Status</h4>
+                <div class="status">
+                {% if profile.available %}
+                <a href="/Lsp/changeAvailability/0/"><button type="submit" class="out">At work<i class="fa fa-close" style="font-size:12px;color:red"></i></button></a>
+                {% else %}
+                <a href="/Lsp/changeAvailability/1/"><button type="submit" class="in">open to work<i class="fa fa-check-circle" style="font-size:12px;color:green"></i></button></a> 
+                {% endif %}
+                  
+                   
+                </div>                                                      </div>
+        </div>   
+    </div>
+         
+</body>
+</html>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+    font-family: "Familjen Grotesk", sans-serif;
+}
+body{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.container{
+  width: 800px;
+  padding:30px;
+  display:flex;
+  flex-direction: column;
+  justify-content:space-between ;
+  border: 1px solid black;
+  position: relative;
+  border-radius: 10px;
+}
+
+
+
+img{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+
+.verify{
+  width: 80 px;
+  background-color: rgb(181, 176, 176);
+  padding: 3px;
+  opacity: .6;
+  border-radius: 10px;
+}
+
+.info0,.info1,.info2,.info3,.info4,.info5,.info6{
+  display: flex;
+  margin: 10px;
+}
+label {
+  margin-right: 6px;
+}
+.navigators
+ button{
+   
+  margin: 10px;
+  border-radius: 20px;
+  padding: 10px;
+  height: 40px;
+}
+button:hover{
+  cursor: pointer;
+}
+.buttons{
+  margin-left: 100px;
+  display: flex;
+}
+.profile{
+  display: flex;
+  margin-top: 100px;
+}
+.navigators{
+  display: flex;
+  width: 800px;
+  height: 80px;
+  border-bottom: 1px solid black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  align-items: center;
+}
+h4{
+  width: 400px;
+}
+
+
+.availability{
+  position: absolute;
+  right: -200px;
+}
+.availability button{
+  margin: 10px;
+  width: 100px;
+}
+
+
+  
+</style>
